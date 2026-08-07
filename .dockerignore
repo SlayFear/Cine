@@ -1,0 +1,19 @@
+# Secretos reales: nunca deben entrar al build context
+.env
+.env.local
+.env.*.local
+
+# Se reinstalan/regeneran dentro de la imagen
+node_modules
+.next
+.git
+.gitignore
+
+# Solo hacen falta en dev local, no en el build de Docker
+scripts
+.vscode
+
+npm-debug.log*
+.DS_Store
+Thumbs.db
+*.md

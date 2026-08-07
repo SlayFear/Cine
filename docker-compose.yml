@@ -1,0 +1,19 @@
+# MongoDB es Atlas (nube), no un contenedor local: MONGODB_URI en .env ya
+# apunta al cluster, ver .env.example. Este compose solo levanta la app.
+#
+# Local (build desde el Dockerfile):  docker compose up --build
+# Servidor (jala la tag publicada):   TAG=23.0.5 ./deploy.sh 23.0.5
+services:
+  app:
+    image: slayfear/cinerejon:${TAG:-latest}
+    build: .
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    volumes:
+      - uploads:/app/public/uploads
+    restart: unless-stopped
+
+volumes:
+  uploads:
