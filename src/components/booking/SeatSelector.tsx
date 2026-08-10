@@ -265,10 +265,10 @@ export default function SeatSelector({ funcionId, titulo, posterUrl, fechaHoraIS
                           {row.rowLabel}
                         </span>
                         <div className="flex gap-1.5">
-                          {row.seats.map((seat, idx) => {
-                            const prevSeat = row.seats[idx - 1];
+                          {[...row.seats].reverse().map((seat, idx, displaySeats) => {
+                            const prevSeat = displaySeats[idx - 1];
                             const showGap =
-                              prevSeat && prevSeat.block === "izquierda" && seat.block === "derecha";
+                              prevSeat && prevSeat.block && seat.block && prevSeat.block !== seat.block;
                             const isSelected = selected?.id === seat.id;
                             const isHovered = hovered === seat.id;
 

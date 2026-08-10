@@ -1,6 +1,5 @@
 import { formatVenueDate, formatVenueWeekday, formatVenueTime } from "@/lib/timezone";
 import {
-  EVENT_ACCESS_NOTE,
   EVENT_CAPACITY_NOTE,
   EVENT_DURATION,
   EVENT_MAPS_URL,
@@ -36,7 +35,6 @@ export default function InfoSection({ proximaFuncionISO }: InfoSectionProps) {
       icon: IconClock,
       title: "Hora",
       primary: proximaFuncionISO ? formatVenueTime(proximaFuncionISO) : "Por confirmar",
-      secondary: EVENT_ACCESS_NOTE,
     },
     {
       icon: IconHourglass,
