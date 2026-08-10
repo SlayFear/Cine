@@ -170,10 +170,7 @@ export default function SeatSelector({ funcionId, titulo, posterUrl, fechaHoraIS
   return (
     <div className="min-h-screen bg-cine-bg text-cine-text">
       <div className="mx-auto max-w-[1440px] px-4 py-6 lg:px-8">
-        <header className="mb-8 flex flex-wrap items-center justify-between gap-4">
-          <Link href="/" className="text-lg font-bold tracking-[0.2em] text-cine-text">
-            LA <span className="text-cine-red">CAPTURA</span>
-          </Link>
+        <header className="mb-8 flex flex-wrap items-center justify-end gap-4">
           <FlowStepper current={step === "confirmar" ? 3 : 2} />
         </header>
 
@@ -265,10 +262,10 @@ export default function SeatSelector({ funcionId, titulo, posterUrl, fechaHoraIS
                   FRENTE
                 </div>
 
-                <div className="space-y-2 overflow-x-auto pb-2">
-                  {rows.map((row) => (
-                    <div key={row.rowLabel}>
-                      <div className="flex w-max min-w-full items-center justify-center gap-1.5">
+                <div className="overflow-x-auto pb-2">
+                  <div className="mx-auto w-max min-w-full space-y-2">
+                    {rows.map((row) => (
+                      <div key={row.rowLabel} className="flex items-center justify-center gap-1.5">
                         <span className="w-5 shrink-0 text-center text-xs font-bold text-cine-muted">
                           {row.rowLabel}
                         </span>
@@ -343,8 +340,8 @@ export default function SeatSelector({ funcionId, titulo, posterUrl, fechaHoraIS
                           })}
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
 
                 <div className="mt-4 flex items-center justify-center gap-1.5 text-[10px] font-bold tracking-[0.3em] text-cine-muted">

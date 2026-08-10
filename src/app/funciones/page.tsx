@@ -63,10 +63,7 @@ export default async function FuncionesPage() {
       </div>
 
       <div className="relative z-10 flex min-h-screen flex-col">
-        <header className="flex flex-wrap items-center justify-between gap-4 px-6 py-6 lg:px-10">
-          <Link href="/" className="text-lg font-bold tracking-[0.2em] text-cine-text">
-            LA <span className="text-cine-red">CAPTURA</span>
-          </Link>
+        <header className="flex flex-wrap items-center justify-end gap-4 px-6 py-6 lg:px-10">
           <div className="flex items-center gap-6">
             <span className="hidden items-center gap-2 text-xs font-bold tracking-[0.2em] text-cine-muted sm:flex">
               FUNCIÓN EXCLUSIVA <span className="h-1.5 w-1.5 rounded-full bg-cine-red" />
@@ -81,7 +78,13 @@ export default async function FuncionesPage() {
               FUNCIÓN EXCLUSIVA
             </span>
             <h1 className="text-5xl font-extrabold leading-[0.95] tracking-tight text-cine-text">
-              {titulo}
+              <Image
+                src="/img/LogoCaptura.png"
+                alt={titulo}
+                width={475}
+                height={100}
+                className="h-14 w-auto object-contain"
+              />
             </h1>
             <p className="mt-3 text-xs font-semibold uppercase tracking-[0.25em] text-cine-muted">
               {EVENT_SUBTITLE}
