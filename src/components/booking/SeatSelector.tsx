@@ -90,9 +90,12 @@ export default function SeatSelector({ funcionId, titulo, posterUrl, fechaHoraIS
   const [email, setEmail] = useState("");
   const [confirmError, setConfirmError] = useState<string | null>(null);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [reservaConfirmada, setReservaConfirmada] = useState<{ codigo: string; seatId: string } | null>(
-    null,
-  );
+  const [reservaConfirmada, setReservaConfirmada] = useState<{
+    codigo: string;
+    seatId: string;
+    qrDataUrl: string | null;
+    emailEnviado: boolean;
+  } | null>(null);
 
   useEffect(() => {
     fetch(`/api/funciones/${funcionId}/asientos`)
@@ -156,7 +159,12 @@ export default function SeatSelector({ funcionId, titulo, posterUrl, fechaHoraIS
     }
 
     sessionStorage.removeItem(`cr_prefill_codigo_${funcionId}`);
-    setReservaConfirmada({ codigo: data.codigo, seatId: data.seatId });
+    setReservaConfirmada({
+      codigo: data.codigo,
+      seatId: data.seatId,
+      qrDataUrl: data.qrDataUrl ?? null,
+      emailEnviado: Boolean(data.emailEnviado),
+    });
   }
 
   return (
@@ -484,6 +492,9 @@ export default function SeatSelector({ funcionId, titulo, posterUrl, fechaHoraIS
           peliculaTitulo={titulo}
           funcionLabel={`${formatVenueDate(fechaHoraISO)} · ${formatVenueTime(fechaHoraISO)}`}
           seatId={reservaConfirmada.seatId}
+          codigo={reservaConfirmada.codigo}
+          qrDataUrl={reservaConfirmada.qrDataUrl}
+          emailEnviado={reservaConfirmada.emailEnviado}
           onVolverInicio={() => router.push("/")}
         />
       )}

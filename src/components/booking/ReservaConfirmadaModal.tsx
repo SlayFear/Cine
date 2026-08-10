@@ -7,6 +7,9 @@ interface ReservaConfirmadaModalProps {
   peliculaTitulo: string;
   funcionLabel: string;
   seatId: string;
+  codigo: string;
+  qrDataUrl: string | null;
+  emailEnviado: boolean;
   onVolverInicio: () => void;
 }
 
@@ -14,6 +17,9 @@ export default function ReservaConfirmadaModal({
   peliculaTitulo,
   funcionLabel,
   seatId,
+  codigo,
+  qrDataUrl,
+  emailEnviado,
   onVolverInicio,
 }: ReservaConfirmadaModalProps) {
   return (
@@ -45,10 +51,28 @@ export default function ReservaConfirmadaModal({
             Asiento <span className="font-mono font-semibold">{seatId}</span>
           </p>
 
+          {qrDataUrl && (
+            <div className="mx-auto w-fit rounded-lg border-4 border-white bg-white">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={qrDataUrl} alt="Código QR de tu pase" className="h-40 w-40" />
+            </div>
+          )}
+
           <p className="text-xs text-cine-muted">
-            Te enviamos tu pase con código QR por correo electrónico. Presentalo en taquilla el día de la
-            función.
+            {emailEnviado
+              ? "Te enviamos tu pase con código QR por correo electrónico. Presentalo en taquilla el día de la función."
+              : "No pudimos confirmar el envío del correo. Descarga tu QR aquí y presentalo en taquilla el día de la función."}
           </p>
+
+          {qrDataUrl && (
+            <a
+              href={qrDataUrl}
+              download={`pase-cinerejon-${codigo}.png`}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-md border border-cine-border px-6 py-3 text-sm font-bold tracking-wider text-cine-text transition hover:border-cine-red/50 hover:bg-white/[0.04]"
+            >
+              Descargar QR
+            </a>
+          )}
 
           <button
             type="button"

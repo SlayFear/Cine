@@ -6,12 +6,16 @@ interface ConfirmacionCardProps {
   peliculaTitulo: string;
   funcionLabel: string | null;
   seatId: string | null;
+  codigo: string;
+  qrDataUrl: string;
 }
 
 export default function ConfirmacionCard({
   peliculaTitulo,
   funcionLabel,
   seatId,
+  codigo,
+  qrDataUrl,
 }: ConfirmacionCardProps) {
   return (
     <motion.div
@@ -36,14 +40,32 @@ export default function ConfirmacionCard({
         Asiento <span className="font-mono font-semibold">{seatId}</span>
       </p>
 
+      <motion.div
+        initial={{ opacity: 0, y: 6 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.25, duration: 0.4 }}
+        className="mx-auto w-fit rounded-lg border-4 border-white bg-white"
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={qrDataUrl} alt="Código QR de tu pase" className="h-40 w-40" />
+      </motion.div>
+
       <motion.p
         initial={{ opacity: 0, y: 6 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.4 }}
         className="text-sm text-neutral-400"
       >
-        Te enviamos tu pase con codigo QR por correo electronico. Presentalo en taquilla el dia de la funcion.
+        Presentalo en taquilla el dia de la funcion.
       </motion.p>
+
+      <a
+        href={qrDataUrl}
+        download={`pase-cinerejon-${codigo}.png`}
+        className="inline-flex w-full items-center justify-center gap-2 rounded-md border border-neutral-700 px-6 py-3 text-sm font-bold tracking-wider text-neutral-100 transition hover:border-red-500/50 hover:bg-white/[0.04]"
+      >
+        Descargar QR
+      </a>
     </motion.div>
   );
 }

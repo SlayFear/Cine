@@ -6,6 +6,8 @@ import Pelicula from "@/models/Pelicula";
 import { getSeatById, isValidSeatId } from "@/lib/seatLayout";
 import { reservaSchema } from "@/lib/validators";
 import { sendConfirmationEmail } from "@/lib/mailer";
+import { generateQrDataUrl } from "@/lib/qrcode";
+import { invitationUrlFor } from "@/lib/serial";
 
 const DUPLICATE_KEY_ERROR = 11000;
 
@@ -106,10 +108,14 @@ export async function POST(request: NextRequest) {
       await reservada.save();
     }
 
+    const qrDataUrl = await generateQrDataUrl(invitationUrlFor(reservada.codigo));
+
     return NextResponse.json({
       ok: true,
       codigo: reservada.codigo,
       seatId: reservada.seatId,
+      qrDataUrl,
+      emailEnviado,
     });
   } catch (err) {
     if (isDuplicateKeyError(err)) {

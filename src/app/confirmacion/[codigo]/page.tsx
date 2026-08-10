@@ -21,6 +21,8 @@ export default async function ConfirmacionPage({ params }: PageProps) {
             : null
         }
         seatId={data.seatId}
+        codigo={data.codigo}
+        qrDataUrl={data.qrDataUrl}
       />
     </main>
   );
