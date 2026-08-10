@@ -65,7 +65,14 @@ export default function Hero({ titulo, posterUrl, proximaFuncionISO }: HeroProps
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-6xl font-extrabold leading-[0.95] tracking-tight text-cine-text sm:text-7xl"
             >
-              {titulo}
+              <Image
+                src="/img/LogoCaptura.png"
+                alt={titulo}
+                width={475}
+                height={100}
+                priority
+                className="h-16 w-auto object-contain sm:h-20"
+              />
             </motion.h1>
 
             <motion.p

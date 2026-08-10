@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -34,17 +33,6 @@ export default function Navbar() {
       }`}
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-10">
-        <a href="#inicio" className="shrink-0">
-          <Image
-            src="/img/LogoCaptura.png"
-            alt="La Captura"
-            width={190}
-            height={40}
-            priority
-            className="h-8 w-auto object-contain"
-          />
-        </a>
-
         <ul className="hidden items-center gap-9 text-xs font-semibold tracking-[0.15em] text-cine-muted md:flex">
           {NAV_LINKS.map((link) => (
             <li key={link.href}>
@@ -66,7 +54,7 @@ export default function Navbar() {
           type="button"
           aria-label={open ? "Cerrar menú" : "Abrir menú"}
           onClick={() => setOpen((v) => !v)}
-          className="text-cine-text md:hidden"
+          className="ml-auto text-cine-text md:hidden"
         >
           {open ? <IconClose className="h-6 w-6" /> : <IconMenu className="h-6 w-6" />}
         </button>
