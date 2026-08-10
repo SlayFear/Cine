@@ -1,4 +1,5 @@
 import Image from "next/image";
+import packageJson from "../../../package.json";
 
 export default function Footer() {
   return (
@@ -44,7 +45,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="mx-auto mt-14 flex max-w-7xl justify-center border-t border-cine-border pt-8 text-xs text-cine-muted">
+      <div className="mx-auto mt-14 flex max-w-7xl flex-col items-center gap-4 border-t border-cine-border pt-8 text-xs text-cine-muted">
         <a
           href="https://notcore.com.mx/"
           target="_blank"
@@ -57,9 +58,10 @@ export default function Footer() {
             alt="NotCore"
             width={200}
             height={144}
-            className="h-10 w-auto"
+            className="h-7 w-auto"
           />
         </a>
+        <p className="text-[10px] tracking-[0.2em] text-cine-muted/70">v{packageJson.version}</p>
       </div>
     </footer>
   );
