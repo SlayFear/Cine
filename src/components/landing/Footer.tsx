@@ -5,10 +5,14 @@ export default function Footer() {
   return (
     <footer id="contacto" className="relative scroll-mt-24 border-t border-cine-border bg-cine-bg px-6 py-16 lg:px-10">
       <div className="mx-auto grid max-w-5xl gap-12 text-center sm:grid-cols-3">
-        <div className="space-y-3">
-          <p className="text-sm font-bold tracking-[0.2em] text-cine-text">
-            LA <span className="text-cine-red">CAPTURA</span>
-          </p>
+        <div className="flex flex-col items-center space-y-3">
+          <Image
+            src="/img/LogoCaptura.png"
+            alt="La Captura"
+            width={190}
+            height={40}
+            className="h-8 w-auto object-contain"
+          />
           <p className="text-sm text-cine-muted">
             Una experiencia cinematográfica exclusiva, por invitación.
           </p>
