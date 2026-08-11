@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
+import { downloadTicketImage } from "@/lib/ticketImage";
 
 interface ConfirmacionCardProps {
   peliculaTitulo: string;
@@ -8,6 +10,7 @@ interface ConfirmacionCardProps {
   seatId: string | null;
   codigo: string;
   qrDataUrl: string;
+  posterUrl: string;
 }
 
 export default function ConfirmacionCard({
@@ -16,7 +19,27 @@ export default function ConfirmacionCard({
   seatId,
   codigo,
   qrDataUrl,
+  posterUrl,
 }: ConfirmacionCardProps) {
+  const [descargando, setDescargando] = useState(false);
+
+  async function handleDescargar() {
+    if (descargando) return;
+    setDescargando(true);
+    try {
+      await downloadTicketImage({
+        peliculaTitulo,
+        funcionLabel: funcionLabel ?? "",
+        seatId,
+        codigo,
+        qrDataUrl,
+        posterUrl,
+      });
+    } finally {
+      setDescargando(false);
+    }
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.92 }}
@@ -59,13 +82,14 @@ export default function ConfirmacionCard({
         Presentalo en taquilla el dia de la funcion.
       </motion.p>
 
-      <a
-        href={qrDataUrl}
-        download={`pase-cinerejon-${codigo}.png`}
-        className="inline-flex w-full items-center justify-center gap-2 rounded-md border border-neutral-700 px-6 py-3 text-sm font-bold tracking-wider text-neutral-100 transition hover:border-red-500/50 hover:bg-white/[0.04]"
+      <button
+        type="button"
+        onClick={handleDescargar}
+        disabled={descargando}
+        className="inline-flex w-full items-center justify-center gap-2 rounded-md border border-neutral-700 px-6 py-3 text-sm font-bold tracking-wider text-neutral-100 transition hover:border-red-500/50 hover:bg-white/[0.04] disabled:cursor-not-allowed disabled:opacity-60"
       >
-        Descargar QR
-      </a>
+        {descargando ? "Generando..." : "Descargar pase"}
+      </button>
     </motion.div>
   );
 }

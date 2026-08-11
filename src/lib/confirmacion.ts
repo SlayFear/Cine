@@ -4,6 +4,7 @@ import Funcion from "@/models/Funcion";
 import Pelicula from "@/models/Pelicula";
 import { generateQrDataUrl } from "@/lib/qrcode";
 import { invitationUrlFor } from "@/lib/serial";
+import { EVENT_FALLBACK_POSTER } from "@/lib/eventConfig";
 
 export interface ConfirmacionData {
   codigo: string;
@@ -13,6 +14,7 @@ export interface ConfirmacionData {
   qrDataUrl: string;
   funcion: { orden: number; fechaHora: Date } | null;
   peliculaTitulo: string;
+  posterUrl: string;
 }
 
 export async function getConfirmacionData(codigo: string): Promise<ConfirmacionData | null> {
@@ -35,5 +37,6 @@ export async function getConfirmacionData(codigo: string): Promise<ConfirmacionD
     qrDataUrl,
     funcion: funcion ? { orden: funcion.orden, fechaHora: funcion.fechaHora } : null,
     peliculaTitulo: pelicula?.titulo ?? "CineRejon",
+    posterUrl: pelicula?.posterUrl || EVENT_FALLBACK_POSTER,
   };
 }

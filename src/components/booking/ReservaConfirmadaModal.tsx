@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { IconUserCheck } from "@/components/landing/icons";
+import { downloadTicketImage } from "@/lib/ticketImage";
 
 interface ReservaConfirmadaModalProps {
   peliculaTitulo: string;
@@ -9,6 +11,7 @@ interface ReservaConfirmadaModalProps {
   seatId: string;
   codigo: string;
   qrDataUrl: string | null;
+  posterUrl: string;
   emailEnviado: boolean;
   onVolverInicio: () => void;
 }
@@ -19,9 +22,22 @@ export default function ReservaConfirmadaModal({
   seatId,
   codigo,
   qrDataUrl,
+  posterUrl,
   emailEnviado,
   onVolverInicio,
 }: ReservaConfirmadaModalProps) {
+  const [descargando, setDescargando] = useState(false);
+
+  async function handleDescargar() {
+    if (!qrDataUrl || descargando) return;
+    setDescargando(true);
+    try {
+      await downloadTicketImage({ peliculaTitulo, funcionLabel, seatId, codigo, qrDataUrl, posterUrl });
+    } finally {
+      setDescargando(false);
+    }
+  }
+
   return (
     <AnimatePresence>
       <motion.div
@@ -65,13 +81,14 @@ export default function ReservaConfirmadaModal({
           </p>
 
           {qrDataUrl && (
-            <a
-              href={qrDataUrl}
-              download={`pase-cinerejon-${codigo}.png`}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-md border border-cine-border px-6 py-3 text-sm font-bold tracking-wider text-cine-text transition hover:border-cine-red/50 hover:bg-white/[0.04]"
+            <button
+              type="button"
+              onClick={handleDescargar}
+              disabled={descargando}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-md border border-cine-border px-6 py-3 text-sm font-bold tracking-wider text-cine-text transition hover:border-cine-red/50 hover:bg-white/[0.04] disabled:cursor-not-allowed disabled:opacity-60"
             >
-              Descargar QR
-            </a>
+              {descargando ? "Generando..." : "Descargar pase"}
+            </button>
           )}
 
           <button

@@ -41,7 +41,9 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       codigo: s.codigo,
       peliculaTitulo: pelicula?.titulo ?? "CineRejon",
       funcionFechaHora: funcion.fechaHora,
-    }))
+      status: s.status,
+    })),
+    { posterUrl: pelicula?.posterUrl }
   );
 
   await Invitacion.updateMany(

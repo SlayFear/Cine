@@ -490,6 +490,7 @@ export default function SeatSelector({ funcionId, titulo, posterUrl, fechaHoraIS
           funcionLabel={`${formatVenueDate(fechaHoraISO)} · ${formatVenueTime(fechaHoraISO)}`}
           seatId={reservaConfirmada.seatId}
           codigo={reservaConfirmada.codigo}
+          posterUrl={posterUrl}
           qrDataUrl={reservaConfirmada.qrDataUrl}
           emailEnviado={reservaConfirmada.emailEnviado}
           onVolverInicio={() => router.push("/")}

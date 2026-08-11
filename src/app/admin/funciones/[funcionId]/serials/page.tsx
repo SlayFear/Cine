@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
+import { downloadTicketImage } from "@/lib/ticketImage";
 
 interface Bloque {
   _id: string;
@@ -55,6 +56,7 @@ export default function AdminSerialsPage() {
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [exporting, setExporting] = useState(false);
+  const [descargandoPase, setDescargandoPase] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
   async function load() {
@@ -179,6 +181,32 @@ export default function AdminSerialsPage() {
     }
 
     await load();
+  }
+
+  async function handleDescargarPase(codigo: string) {
+    setDescargandoPase(codigo);
+    setMessage(null);
+
+    try {
+      const res = await fetch(`/api/admin/serials/${codigo}/pase`);
+      const data = await res.json();
+
+      if (!res.ok || !data.ok) {
+        setMessage(data.error ?? "No se pudo generar el pase");
+        return;
+      }
+
+      await downloadTicketImage({
+        peliculaTitulo: data.peliculaTitulo,
+        funcionLabel: data.funcionLabel,
+        seatId: data.seatId,
+        codigo: data.codigo,
+        qrDataUrl: data.qrDataUrl,
+        posterUrl: data.posterUrl,
+      });
+    } finally {
+      setDescargandoPase(null);
+    }
   }
 
   async function handleAddToBloque(bloqueId: string | undefined, nombre: string) {
@@ -414,6 +442,15 @@ export default function AdminSerialsPage() {
                       <td className="p-3">{s.checkedIn ? "Si" : "No"}</td>
                       <td className="p-3">
                         <div className="flex gap-3">
+                          {s.status === "reservado" && (
+                            <button
+                              onClick={() => handleDescargarPase(s.codigo)}
+                              disabled={descargandoPase === s.codigo}
+                              className="text-xs text-blue-400 hover:underline disabled:opacity-50"
+                            >
+                              {descargandoPase === s.codigo ? "Generando..." : "Descargar pase"}
+                            </button>
+                          )}
                           {s.status === "disponible" && (
                             <button
                               onClick={() => handleInactivar(s.codigo)}
