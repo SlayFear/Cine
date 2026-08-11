@@ -228,9 +228,8 @@ export function buildConfirmationEmailHtml(params: ConfirmationEmailParams): str
                           <p style="margin:0 0 10px;font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:bold;letter-spacing:1.5px;color:#9a9a9a;">DISPONIBLE EN</p>
                           <img src="${netflixLogo}" width="76" height="23" alt="Netflix" />
                         </td>
-                        <td class="footer-col" width="50%" align="center" valign="top" style="padding-bottom:20px;">
-                          <p style="margin:0 0 10px;font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:bold;letter-spacing:1.5px;color:#9a9a9a;">CASA PRODUCTORA</p>
-                          <img src="${dracoLogo}" width="38" height="37" alt="Draco Films" />
+                        <td class="footer-col" width="50%" align="center" valign="middle" style="padding-bottom:20px;">
+                          <img src="${dracoLogo}" width="130" height="40" alt="Draco Films" />
                         </td>
                       </tr>
                     </table>
@@ -295,7 +294,7 @@ export async function sendConfirmationEmail(params: ConfirmationEmailParams): Pr
         },
         {
           filename: "draco.png",
-          path: path.join(imgDir, "DracoFilms.png"),
+          path: path.join(imgDir, "DracoFilmsN.png"),
           cid: "draco-logo",
         },
         {

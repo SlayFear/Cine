@@ -33,17 +33,14 @@ export default function Footer() {
           </a>
         </div>
 
-        <div className="flex flex-col items-center space-y-3 text-center">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-cine-muted">
-            Casa productora
-          </p>
+        <div className="flex flex-col items-center justify-center space-y-3 text-center">
           <a href="https://dracofilms.com/" target="_blank" rel="noreferrer">
             <Image
-              src="/img/DracoFilms.png"
+              src="/img/DracoFilmsN.png"
               alt="Draco Films"
-              width={67}
-              height={66}
-              className="h-11 w-11"
+              width={1280}
+              height={393}
+              className="h-12 w-auto"
             />
           </a>
         </div>

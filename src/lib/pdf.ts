@@ -32,10 +32,10 @@ const LOGO_W = 168;
 const LOGO_RATIO = 616 / 2924;
 
 const NETFLIX_LOGO_PATH = path.join(process.cwd(), "public", "img", "Logonetflix.png");
-const DRACO_LOGO_PATH = path.join(process.cwd(), "public", "img", "DracoFilms.png");
+const DRACO_LOGO_PATH = path.join(process.cwd(), "public", "img", "DracoFilmsN.png");
 const NOTCORE_LOGO_PATH = path.join(process.cwd(), "public", "img", "NCWhiteL.png");
 const NETFLIX_RATIO = 678 / 2226;
-const DRACO_RATIO = 66 / 67;
+const DRACO_RATIO = 393 / 1280;
 const NOTCORE_RATIO = 833 / 1157;
 
 interface BrandGroup {
@@ -107,7 +107,7 @@ export async function buildInvitationsListPdf(
 
   const brandGroups: BrandGroup[] = [
     { label: "DISPONIBLE EN", logo: netflixLogo, ratio: NETFLIX_RATIO, logoH: 17 },
-    { label: "CASA PRODUCTORA", logo: dracoLogo, ratio: DRACO_RATIO, logoH: 24 },
+    { label: "", logo: dracoLogo, ratio: DRACO_RATIO, logoH: 30 },
     { label: "DESARROLLADO POR", logo: notcoreLogo, ratio: NOTCORE_RATIO, logoH: 20 },
   ];
 
@@ -205,11 +205,13 @@ export async function buildInvitationsListPdf(
     visible.forEach((g, i) => {
       const colX = PAGE_MARGIN + i * colW;
 
-      doc
-        .fillColor("#c9c9c9")
-        .font("Helvetica-Bold")
-        .fontSize(7)
-        .text(g.label, colX, labelY, { width: colW, align: "center", characterSpacing: 0.4 });
+      if (g.label) {
+        doc
+          .fillColor("#c9c9c9")
+          .font("Helvetica-Bold")
+          .fontSize(7)
+          .text(g.label, colX, labelY, { width: colW, align: "center", characterSpacing: 0.4 });
+      }
 
       const logoW = g.logoH / g.ratio;
       const logoX = colX + (colW - logoW) / 2;

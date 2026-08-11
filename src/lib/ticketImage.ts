@@ -82,7 +82,7 @@ async function renderTicketCanvas(params: TicketImageParams): Promise<HTMLCanvas
     loadImage(params.posterUrl || EVENT_FALLBACK_POSTER),
     loadImage("/img/NCWhiteL.png"),
     loadImage("/img/Logonetflix.png"),
-    loadImage("/img/DracoFilms.png"),
+    loadImage("/img/DracoFilmsN.png"),
   ]);
 
   // Fondo: poster de la película, oscurecido con un degradado para que el
@@ -180,7 +180,7 @@ async function renderTicketCanvas(params: TicketImageParams): Promise<HTMLCanvas
 
   const footerGroups = [
     { label: "DISPONIBLE EN", img: netflixLogo, h: 26 },
-    { label: "CASA PRODUCTORA", img: dracoLogo, h: 36 },
+    { label: "", img: dracoLogo, h: 44 },
     { label: "DESARROLLADO POR", img: notcoreLogo, h: 32 },
   ];
 
@@ -190,9 +190,11 @@ async function renderTicketCanvas(params: TicketImageParams): Promise<HTMLCanvas
   footerGroups.forEach((g, i) => {
     const colCenterX = footerSpanLeft + colW * i + colW / 2;
 
-    ctx.fillStyle = CINE_MUTED;
-    ctx.font = "bold 13px Arial";
-    ctx.fillText(g.label, colCenterX, labelY);
+    if (g.label) {
+      ctx.fillStyle = CINE_MUTED;
+      ctx.font = "bold 13px Arial";
+      ctx.fillText(g.label, colCenterX, labelY);
+    }
 
     const logoW = g.h * (g.img.width / g.img.height);
     ctx.drawImage(g.img, colCenterX - logoW / 2, logoCenterY - g.h / 2, logoW, g.h);
