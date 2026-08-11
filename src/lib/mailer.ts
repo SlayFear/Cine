@@ -27,6 +27,11 @@ function getTransporter() {
     port: Number(SMTP_PORT),
     secure: Number(SMTP_PORT) === 465,
     auth: { user: SMTP_USER, pass: SMTP_PASS },
+    connectionTimeout: 15_000,
+    greetingTimeout: 15_000,
+    socketTimeout: 20_000,
+    logger: true,
+    debug: true,
   });
 
   return transporter;
@@ -262,8 +267,8 @@ export async function sendConfirmationEmail(params: ConfirmationEmailParams): Pr
     const qrBuffer = await generateQrPngBuffer(invitationUrlFor(params.codigo));
     const imgDir = path.join(process.cwd(), "public", "img");
 
-    await getTransporter().sendMail({
-      from: process.env.FROM_EMAIL,
+    const info = await getTransporter().sendMail({
+      from: process.env.SMTP_USER,
       to: params.to,
       subject: `Tu lugar en ${params.peliculaTitulo} esta confirmado`,
       html: buildConfirmationEmailHtml(params),
@@ -299,6 +304,14 @@ export async function sendConfirmationEmail(params: ConfirmationEmailParams): Pr
           cid: "notcore-logo",
         },
       ],
+    });
+
+    console.log("Correo de confirmacion enviado:", {
+      to: params.to,
+      messageId: info.messageId,
+      accepted: info.accepted,
+      rejected: info.rejected,
+      response: info.response,
     });
 
     return true;
