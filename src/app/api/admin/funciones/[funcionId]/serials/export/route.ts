@@ -5,6 +5,7 @@ import Invitacion from "@/models/Invitacion";
 import Pelicula from "@/models/Pelicula";
 import { buildInvitationsListPdf } from "@/lib/pdf";
 import { serialsExportSchema } from "@/lib/validators";
+import { formatVenueDateTime } from "@/lib/timezone";
 
 type RouteParams = { params: Promise<{ funcionId: string }> };
 
@@ -27,7 +28,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
   const serials = await Invitacion.find({
     _id: { $in: parsed.data.serialIds },
     funcionId,
-  });
+  }).populate("bloqueId", "nombre");
 
   if (serials.length === 0) {
     return NextResponse.json({ ok: false, error: "No se encontraron seriales" }, { status: 404 });
@@ -35,15 +36,23 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
 
   const pelicula = await Pelicula.findOne({});
 
+  const bloqueNombres = new Set(
+    serials.map((s) => (s.bloqueId as unknown as { nombre?: string } | null)?.nombre ?? "Sin bloque")
+  );
+  const title =
+    bloqueNombres.size === 1
+      ? `Invitaciones - Funcion ${funcion.orden} - ${[...bloqueNombres][0]}`
+      : `Invitaciones - Funcion ${funcion.orden}`;
+
   const pdfBuffer = await buildInvitationsListPdf(
-    `Invitaciones - Funcion ${funcion.orden}`,
+    title,
     serials.map((s) => ({
       codigo: s.codigo,
-      peliculaTitulo: pelicula?.titulo ?? "CineRejon",
+      guestName: s.guestName ?? "-",
       funcionFechaHora: funcion.fechaHora,
       status: s.status,
     })),
-    { posterUrl: pelicula?.posterUrl }
+    { posterUrl: pelicula?.posterUrl, subtitle: formatVenueDateTime(funcion.fechaHora) }
   );
 
   await Invitacion.updateMany(

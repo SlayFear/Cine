@@ -121,7 +121,7 @@ export default function AdminFuncionesPage() {
         >
           <h2 className="font-medium">Crear funcion</h2>
 
-          <div className="flex gap-4">
+          <div className="flex flex-wrap gap-4">
             <div className="space-y-1">
               <label className="block text-sm text-neutral-400">Numero</label>
               <select

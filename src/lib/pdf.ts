@@ -6,13 +6,14 @@ import { formatVenueTime } from "./timezone";
 
 export interface InvitationListRow {
   codigo: string;
-  peliculaTitulo: string;
+  guestName: string;
   funcionFechaHora: Date;
   status: "disponible" | "reservado" | "cancelado";
 }
 
 export interface InvitationListOptions {
   posterUrl?: string | null;
+  subtitle?: string | null;
 }
 
 const PAGE_MARGIN = 50;
@@ -47,7 +48,7 @@ interface BrandGroup {
 
 const COL_X = {
   codigo: PAGE_MARGIN,
-  pelicula: PAGE_MARGIN + 130,
+  invitado: PAGE_MARGIN + 130,
   hora: PAGE_MARGIN + 290,
   estado: PAGE_MARGIN + 360,
 };
@@ -138,11 +139,29 @@ export async function buildInvitationsListPdf(
       .fontSize(9)
       .text("FUNCIÓN EXCLUSIVA", contentX, logoY + logoH + 10, { characterSpacing: 1 });
 
+    const titleWidth = doc.page.width - PAGE_MARGIN - contentX;
+
     doc
       .fillColor("#ffffff")
       .font("Helvetica-Bold")
       .fontSize(13)
-      .text(title, contentX, logoY + logoH + 24);
+      .text(title, contentX, logoY + logoH + 24, {
+        width: titleWidth,
+        lineBreak: false,
+        ellipsis: true,
+      });
+
+    if (options.subtitle) {
+      doc
+        .fillColor("#c9c9c9")
+        .font("Helvetica")
+        .fontSize(9)
+        .text(options.subtitle, contentX, logoY + logoH + 41, {
+          width: titleWidth,
+          lineBreak: false,
+          ellipsis: true,
+        });
+    }
 
     doc
       .fillColor("#c9c9c9")
@@ -176,7 +195,7 @@ export async function buildInvitationsListPdf(
     doc.rect(PAGE_MARGIN - 10, y - 6, doc.page.width - (PAGE_MARGIN - 10) * 2, 22).fill("#fdf2f2");
     doc.font("Helvetica-Bold").fontSize(9).fillColor(ACCENT_COLOR);
     doc.text("CODIGO", COL_X.codigo, y);
-    doc.text("PELICULA", COL_X.pelicula, y);
+    doc.text("INVITADO", COL_X.invitado, y);
     doc.text("HORA", COL_X.hora, y);
     doc.text("ESTADO", COL_X.estado, y);
     doc.y = y + 26;
@@ -257,10 +276,20 @@ export async function buildInvitationsListPdf(
     }
 
     doc.font("Helvetica").fontSize(10).fillColor("#222222");
-    doc.text(row.codigo, COL_X.codigo, y, { width: COL_X.pelicula - COL_X.codigo - 10 });
-    doc.text(row.peliculaTitulo, COL_X.pelicula, y, { width: COL_X.hora - COL_X.pelicula - 10 });
+    doc.text(row.codigo, COL_X.codigo, y, {
+      width: COL_X.invitado - COL_X.codigo - 10,
+      lineBreak: false,
+      ellipsis: true,
+    });
+    doc.text(row.guestName, COL_X.invitado, y, {
+      width: COL_X.hora - COL_X.invitado - 10,
+      lineBreak: false,
+      ellipsis: true,
+    });
     doc.text(formatVenueTime(row.funcionFechaHora), COL_X.hora, y, {
       width: COL_X.estado - COL_X.hora - 10,
+      lineBreak: false,
+      ellipsis: true,
     });
 
     const { bg, fg } = STATUS_STYLE[row.status];

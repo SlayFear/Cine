@@ -133,7 +133,7 @@ export default function AdminPeliculaPage() {
         <label className="block text-sm text-neutral-400">Poster</label>
         {pelicula?.posterUrl && (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={pelicula.posterUrl} alt="Poster" className="h-64 rounded-md object-cover" />
+          <img src={pelicula.posterUrl} alt="Poster" className="h-64 w-full rounded-md object-cover" />
         )}
         <input
           type="file"

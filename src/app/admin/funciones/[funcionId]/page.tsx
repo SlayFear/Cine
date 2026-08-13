@@ -162,7 +162,7 @@ export default function AdminFuncionDetailPage() {
         <label className="block text-sm text-neutral-400">Flyer</label>
         {funcion.flyerUrl && (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={funcion.flyerUrl} alt="Flyer" className="h-64 rounded-md object-cover" />
+          <img src={funcion.flyerUrl} alt="Flyer" className="h-64 w-full rounded-md object-cover" />
         )}
         <input
           type="file"

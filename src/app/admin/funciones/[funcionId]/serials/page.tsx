@@ -382,7 +382,7 @@ export default function AdminSerialsPage() {
                 )}
                 <p className="text-xs text-neutral-500">{grupo.serials.length} seriales</p>
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <button
                   onClick={() => handleAddToBloque(grupo.bloque?._id, grupo.bloque?.nombre ?? "Sin bloque")}
                   disabled={!grupo.bloque}
@@ -412,8 +412,8 @@ export default function AdminSerialsPage() {
               </div>
             </div>
 
-            <div className="overflow-hidden rounded-md border border-neutral-800">
-              <table className="w-full text-left text-sm">
+            <div className="overflow-x-auto rounded-md border border-neutral-800">
+              <table className="w-full min-w-[640px] text-left text-sm">
                 <thead className="bg-neutral-900 text-neutral-400">
                   <tr>
                     <th className="w-8 p-3"></th>
