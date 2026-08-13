@@ -109,7 +109,7 @@ export async function buildInvitationsListPdf(
   const brandGroups: BrandGroup[] = [
     { label: "DISPONIBLE EN", logo: netflixLogo, ratio: NETFLIX_RATIO, logoH: 17 },
     { label: "", logo: dracoLogo, ratio: DRACO_RATIO, logoH: 30 },
-    { label: "DESARROLLADO POR", logo: notcoreLogo, ratio: NOTCORE_RATIO, logoH: 20 },
+    { label: "DESARROLLADO POR", logo: notcoreLogo, ratio: NOTCORE_RATIO, logoH: 26 },
   ];
 
   function drawHeader() {
